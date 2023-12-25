@@ -49,3 +49,45 @@ console.log(entriesArrOfTheObject);
 let mapFromObject = new Map(entriesArrOfTheObject);
 
 console.log(mapFromObject);
+
+//  Set is another special type of collection which stored values which don't repeat
+
+let mySet = new Set();
+console.log("MY SET:-", mySet);
+
+// It's main feature is :- It won't ALLOW / MAINTAIN DUPLICATES, every value is unique
+mySet.add("mowa");
+mySet.add("mowa");
+mySet.add("mowa");
+mySet.add("mowa");
+
+console.log("MY SET:-", mySet); //  Set(1) { 'mowa' }
+console.log(Array.from(mySet)); // [ 'mowa' ]
+
+// Here even if the value passed is a complex object and if it is passed again
+//  It won't be added, as set() can detect the duplication very efficiently
+
+// A set's functionality can be recreated by using a find() method on insertion of every element but the issue is
+// The performance will be worst as the find method will wall over the whole array to check the pre existence of an element which if going to be pushed
+
+//  But set is much optimized internally for this UNIQUENESS CHECK process
+
+// Iteration over Set()
+
+// It has inbuilt forEach and as it contains only values, a for...of loop can also be used
+
+// Adding some more different items
+mySet.add("java");
+mySet.add("kova");
+mySet.add("lava");
+
+for (let value of mySet) {
+  console.log(value); // mowa java kova lava
+}
+
+mySet.forEach((value, valueRepeat, mySet) => {
+  console.log(`${value}  ${valueRepeat}`);
+});
+
+// Here valueRepeat argument is used to make this call back funciton compatiable with the call back function
+// of map as it has 3 arguments(value, key, myMap), so that set can replace map and vice versa
