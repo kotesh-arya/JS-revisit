@@ -91,3 +91,93 @@ mySet.forEach((value, valueRepeat, mySet) => {
 
 // Here valueRepeat argument is used to make this call back funciton compatiable with the call back function
 // of map as it has 3 arguments(value, key, myMap), so that set can replace map and vice versa
+
+//  Challenges
+
+// Challenge 1
+
+// Filter unique array members
+
+// Let arr be an array.
+
+// Create a function unique(arr) that should return an array with unique items of arr.
+
+function unique(arr) {
+  /* your code */
+  // console.log(arr, "array from parameter");
+  let uniqueElementSet = new Set();
+
+  for (const value of arr) {
+    uniqueElementSet.add(value);
+  }
+  let transformedArrayFromSet = Array.from(uniqueElementSet);
+  return transformedArrayFromSet;
+}
+
+let values = [
+  "Hare",
+  "Krishna",
+  "Hare",
+  "Krishna",
+  "Krishna",
+  "Krishna",
+  "Hare",
+  "Hare",
+  ":-O",
+];
+
+console.log(unique(values));
+console.clear();
+// Challenge 2
+
+// Anagrams are words that have the same number of same letters, but in different order.
+
+// For instance:
+
+// nap - pan
+// ear - are - era
+// cheaters - hectares - teachers
+
+let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
+function aclean(arr) {
+  let nonAnagramMap = new Map();
+  for (const word of arr) {
+    let splitted = word.toLowerCase().split("");
+    console.log(splitted.sort().join(""), word);
+    nonAnagramMap.set(splitted.sort().join(), word);
+  }
+  console.log(nonAnagramMap.values(), "non anagram Map");
+  let nonAnagrams = Array.from(nonAnagramMap.values());
+  return (nonAnagrams);
+  // return arr.split();
+}
+console.log(aclean(arr), "result***********");
+
+// Challenge 3
+// We’d like to get an array of map.keys() in a variable and
+//  then apply array-specific methods to it, e.g. .push.
+
+// But that doesn’t work here:
+
+// FIX THIS!!
+
+let map = new Map();
+
+map.set("name", "John");
+console.log(map);
+let keys = map.keys();
+
+console.log(keys);
+// keys.push("more"); // TypeError: keys.push is not a function
+
+// The reason for error is map.keys() returns an Mapiterable object which is an iterable but
+//  technically an array to have push and pop methods
+
+//  To be able to add the "more" into the keys , the returnes Mapiterable from map.keys() should
+//  be transformed into an Array using Array.from()
+
+let arrayFromMapIterable = Array.from(keys);
+
+console.log(arrayFromMapIterable);
+arrayFromMapIterable.push("more");
+console.log(arrayFromMapIterable); //after pushing
