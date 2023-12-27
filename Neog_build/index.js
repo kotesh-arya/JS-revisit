@@ -43,3 +43,50 @@ function generateFizzBuzz() {
 }
 
 generateFizzBuzz();
+
+// Print the following star pattern :-
+
+// *
+// * *
+// * * *
+// * * * *
+// * * * * *
+
+function printStar(n) {
+  let line = "";
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < i + 1; j++) {
+      line += " * ";
+    }
+    console.log(line);
+    line = "";
+  }
+}
+printStar(5);
+
+// Write a program to take a number input from user and print multiplication table 12 times for that number.
+
+function printTable(n) {
+  // let line = "";
+  for (let i = 1; i <= 12; i++) {
+    // line += `${n * i}`;
+    console.log(`${n * i}`);
+  }
+}
+
+printTable(2);
+
+// Print a Fibonacci series
+
+function printFibonacci() {
+  let line = [];
+  for (let i = 0; i < 15; i++) {
+    if (i > 1) {
+      line[i] = line[i - 1] + line[i - 2];
+    } else {
+      line[i] = i;
+    }
+  }
+  console.log(line);
+}
+printFibonacci();
