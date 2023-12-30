@@ -90,3 +90,50 @@ function printFibonacci() {
   console.log(line);
 }
 printFibonacci();
+
+// Write a program to take an input from a user and find its Factorial. Example: Factorial of 5 is 120
+
+function getFactorial(n) {
+  let result = 1;
+  for (let i = n; i > 0; i--) {
+    result = result * i;
+  }
+  console.log(result, "result");
+}
+getFactorial(5);
+
+// Write a Program to take a number input from user and find if the number is Prime or not.
+
+// a whole number greater than 1 that cannot be exactly divided by any whole number other than itself and 1 (e.g. 2, 3, 5, 7, 11):
+
+function checkPrime(n) {
+  let factorialCount = 0;
+
+  for (let i = 1; i <= 9; i++) {
+    if (n % i === 0) {
+      factorialCount++;
+    }
+  }
+  if (factorialCount > 2) {
+    console.log("NON-PRIME");
+  } else {
+    console.log("PRIME");
+  }
+}
+checkPrime(7); // PTIME
+
+// Write a program to take a day as an input and determine whether it is a weekday or weekend. Example: Tuesday is weekday.
+
+function evaluateDay(day) {
+  if (!day.includes("day")) {
+    console.log("kindly enter a valid day");
+  } else {
+    if (day.toLowerCase() === "sunday" || day.toLowerCase() === "saturday") {
+      console.log(`${day} is Weekend`);
+    } else {
+      console.log(`${day} is a Weekday`);
+    }
+  }
+}
+
+evaluateDay("sunday");
