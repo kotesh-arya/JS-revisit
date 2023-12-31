@@ -137,3 +137,69 @@ function evaluateDay(day) {
 }
 
 evaluateDay("sunday");
+
+// FUNCTIONS
+// challenge 1
+function getHexagonArea(s) {
+  let area = s * s * Math.sqrt(3) * (3 / 2);
+  return area.toFixed(2);
+}
+console.log(getHexagonArea(10));
+
+// challenge 2
+// Return min among the parameters of a function
+function findMin(...rest) {
+  // console.log(Math.min(...rest));
+  let min = 0;
+  rest.reduce((acc, curr) => {
+    console.log("acc:", acc, "curr:", curr);
+    console.log(min);
+    if (curr > acc) {
+      min = acc;
+      return acc;
+    } else {
+      min = curr;
+      return curr;
+    }
+  });
+  return min;
+}
+
+console.log("THE MINIMUM VALUE", findMin(3, 5, 9, 1, 10, 22, 3, 0)); // 0  - Wahh! this reduce worked perfectly, remember to always return a value from the function which will be the accumulator for the next function iteration
+
+// challenge 3
+// Return max among the parameters of a function
+function findMax(...rest) {
+  // console.log(Math.min(...rest));
+  let max;
+  rest.reduce((acc, curr) => {
+    console.log("acc:", acc, "curr:", curr);
+    console.log(max);
+    if (curr > acc) {
+      max = curr;
+      return curr;
+    } else {
+      max = acc;
+      return acc;
+    }
+  });
+  return max;
+}
+
+console.log(findMax(32, 5, 9, 1));
+
+// Challenge 4
+// Return the type of triangle by given side lengths
+function getTriangleType(a, b, c) {
+  if (((a + b + c) / a) % 3 === 0) {
+    // Equilateral - all sides are of same length
+    console.log("its Equilateral Triangle");
+  } else if (a === b || b === c || a === c) {
+    // Isoceles - any two sides are equal
+    console.log("its  Isoceles Triangle");
+  } else {
+    // Scalene - all sides are of different length
+    console.log("its Scalene Triangle");
+  }
+}
+getTriangleType(4, 3, 2); // WORKS BUT THNK ABOUT OPTIMIZING
