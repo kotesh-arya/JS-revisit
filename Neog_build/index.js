@@ -203,3 +203,85 @@ function getTriangleType(a, b, c) {
   }
 }
 getTriangleType(4, 3, 2); // WORKS BUT THNK ABOUT OPTIMIZING
+
+// MEDIUM LEVEL
+
+//  Challenge 1
+// Given an array and an item, your function should return the index at which the item is present.
+// Example:
+// Input: indexOf([1,6,3,5,8,9], 3)
+
+function indexOf(arr, num) {
+  for (let i = 0; i < arr.length; i++) {
+    const element = arr[i];
+    if (arr[i] === num) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+console.log(indexOf([1, 6, 3, 5, 8, 9], 3));
+
+//  Challenge 2
+// Given an array and two numbers, your function should replace all entries of first number in an array with the second number.
+// Example:
+// Input: replace([1,5,3,5,6,8], 5, 10) ––> Output: [1,10,3,10,6,8]
+
+function replace(arr, first, second) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === first) {
+      arr[i] = second;
+    }
+  }
+  return arr;
+}
+console.log(replace([1, 5, 3, 5, 6, 8], 5, 10));
+
+//  Challenge 3
+// Given two arrays, your function should return single merged array.
+// Example:
+// Input: mergeArray([1,3,5], [2,4,6]) ––> Output: [1,3,5,2,4,6]
+
+function mergeArray(arr1, arr2) {
+  return [...arr1, ...arr2];
+}
+console.log(mergeArray([1, 3, 5], [2, 4, 6]));
+
+//  Challenge 4
+// Given a string and an index, your function should return the character present at that index in the string.
+// Example:
+// Input: charAt("KoteshArya", 4) ––> Output: s
+
+function charAt(text, num) {
+  for (let i = 0; i < text.length; i++) {
+    if (i === num) {
+      return text[i];
+    }
+  }
+  return -1;
+}
+
+console.log(charAt("KoteshArya", 6));
+
+//  Challenge 5
+// Given two dates, your function should return which one comes before the other.
+// Example:
+// Input: minDate('02/05/2021', '24/01/2021') ––> Output: 24/01/2021
+function minDate(date1, date2) {
+  let splittedDate1 = date1.split("/");
+  console.log(splittedDate1);
+  let splittedDate2 = date2.split("/");
+  console.log(splittedDate2);
+  if (
+    splittedDate1.every((value, index) => {
+      +value < +splittedDate2[index];
+    })
+  ) {
+    return date1;
+  } else {
+    return date2;
+  }
+}
+console.log(minDate("02/05/2021", "24/01/2021")); // 24/01/2021
+// Optimize this with out using arr.every() method
