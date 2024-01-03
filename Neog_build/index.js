@@ -285,3 +285,85 @@ function minDate(date1, date2) {
 }
 console.log(minDate("02/05/2021", "24/01/2021")); // 24/01/2021
 // Optimize this with out using arr.every() method
+
+
+
+// fetch("https://exam.ankush.wiki/challenges")
+//   .then((response) => response.json())
+//   .then((data) => {
+//     // console.log(data);
+//     responseData = data;
+//     // let result = data.data.forEach((obj) => {
+//     //   const name = obj.name.toLowerCase();
+//     //   console.log(name);
+//     //   return name;
+//     // });
+
+//     let result = data.data.map((obj) => {
+//       const name = obj.name.toLowerCase();
+//       const versionCount = name.split(" ").filter((word) => word === "version")
+//         .length;
+//       return {
+//         id: obj.id,
+//         versionCount: versionCount
+//       };
+//     });
+//   let count = 0;
+//   for(let i=0;i< result.length; i++){
+//     count += result[i].versionCount
+//   }
+//     console.log(count);
+//   });
+// async function postData(url = '', data = {}) {
+//   try {
+//     const response = await fetch(`https://exam.ankush.wiki/challenges`, {
+//       method: 'POST',
+//       credentials: 'include',
+//       body: JSON.stringify(data),
+//       headers: {
+//         'Content-type': 'application/json',
+//       },
+//     });
+//     return response;
+//   } catch (error) {
+//     alert('something went wrong');
+//     console.error(error);
+//   }
+// }
+
+// async function postUrl() {
+//   try {
+//     const response = await postData("https://exam.ankush.wiki/challenges", { count: 55 });
+//     const response1 = await response.json();
+//     console.log('Successfully posted. Response:', response1);
+//   } catch (error) {
+//     console.error('Error posting data:', error);
+//   }
+// }
+// postUrl();
+
+
+fetch("https://exam.ankush.wiki/challenges")
+  // The first then block handles the response from the server
+  .then((response) => response.json())
+  // The second then block handles the parsed JSON data from the response
+  .then((data) => {
+    // The variable `responseData` is assigned the parsed JSON data
+    responseData = data;
+
+    // The forEach method is used to iterate over each object in the data array
+    let result = data.data.forEach((obj) => {
+      // For each object, the `name` property is accessed and converted to lowercase
+      const name = obj.name.toLowerCase();
+
+      // The lowercase name is then logged to the console
+      console.log(name);
+
+      // Note: The return statement here doesn't affect the outer result variable
+      // It is used within the context of the forEach method but doesn't impact the overall result of the fetch operation.
+      return name;
+    });
+  });
+
+
+
