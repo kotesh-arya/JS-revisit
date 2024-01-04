@@ -286,8 +286,6 @@ function minDate(date1, date2) {
 console.log(minDate("02/05/2021", "24/01/2021")); // 24/01/2021
 // Optimize this with out using arr.every() method
 
-
-
 // fetch("https://exam.ankush.wiki/challenges")
 //   .then((response) => response.json())
 //   .then((data) => {
@@ -342,28 +340,93 @@ console.log(minDate("02/05/2021", "24/01/2021")); // 24/01/2021
 // }
 // postUrl();
 
+// fetch("https://exam.ankush.wiki/challenges")
+//   // The first then block handles the response from the server
+//   .then((response) => response.json())
+//   // The second then block handles the parsed JSON data from the response
+//   .then((data) => {
+//     // The variable `responseData` is assigned the parsed JSON data
+//     responseData = data;
 
-fetch("https://exam.ankush.wiki/challenges")
-  // The first then block handles the response from the server
-  .then((response) => response.json())
-  // The second then block handles the parsed JSON data from the response
-  .then((data) => {
-    // The variable `responseData` is assigned the parsed JSON data
-    responseData = data;
+//     // The forEach method is used to iterate over each object in the data array
+//     let result = data.data.forEach((obj) => {
+//       // For each object, the `name` property is accessed and converted to lowercase
+//       const name = obj.name.toLowerCase();
 
-    // The forEach method is used to iterate over each object in the data array
-    let result = data.data.forEach((obj) => {
-      // For each object, the `name` property is accessed and converted to lowercase
-      const name = obj.name.toLowerCase();
+//       // The lowercase name is then logged to the console
+//       console.log(name);
 
-      // The lowercase name is then logged to the console
-      console.log(name);
+//       // Note: The return statement here doesn't affect the outer result variable
+//       // It is used within the context of the forEach method but doesn't impact the overall result of the fetch operation.
+//       return name;
+//     });
+//   });
 
-      // Note: The return statement here doesn't affect the outer result variable
-      // It is used within the context of the forEach method but doesn't impact the overall result of the fetch operation.
-      return name;
-    });
-  });
+// Functions Advanced
 
+// Challenge 1
 
+// Write a function which generates a secret code from a given string, by shifting characters of alphabet by N places. Example:
+// Input: encodeString("hercules", 2) ––> Output: pgqiecor
 
+function encodeString(text, shiftCount) {
+  let charsArr = Array.from(text);
+  let result = "";
+  for (let i = 0; i < charsArr.length; i++) {
+    let unicode = charsArr[i].charCodeAt() + 2;
+    result += String.fromCharCode(unicode);
+  }
+  console.log(result);
+}
+
+encodeString("hercules", 2);
+
+// CHallenge 2
+
+// Given a sentence, return a sentence with first letter of all words as capital.
+// Example:
+// Input: toSentenceCase('we are Humans') ––> Output: We Are Humans
+
+function toSentenceCase(sentence) {
+  let splitted = sentence.split(" ");
+  let resultWordsArray = [];
+  for (let i = 0; i < splitted.length; i++) {
+    let updatedWord = splitted[i][0].toUpperCase() + splitted[i].slice(1);
+    resultWordsArray.push(updatedWord);
+  }
+  console.log(resultWordsArray.join(" "));
+}
+toSentenceCase("we are Humans");
+
+// Challenge 3
+
+// Given an array of numbers, your function should return an array in the ascending order.
+// Example:
+// Input: sortArray([100,83,32,9,45,61]) ––> Output: [9,32,45,61,83,100]
+
+function sortArray(arr) {
+  return arr.sort((a, b) => a - b);
+}
+
+console.log(sortArray([100, 83, 32, 9, 45, 61]));
+
+// Challenge 4
+
+// Given a sentence, your function should reverse the order of characters in each word, keeping same sequence of words.
+// Example:
+// Input: reverseCharactersOfWord('we are Humans') –––> Output: ew era snamuH
+
+function reverseCharactersOfWord(sentence) {
+  let splitted = sentence.split(" ");
+  let resultWordsArray = [];
+  for (let i = 0; i < splitted.length; i++) {
+    let updatedWord = splitted[i][0].toUpperCase() + splitted[i].slice(1);
+    let reversedWordCharsArr = [];
+    for (let j = splitted[i].length; j >= 0; j--) {
+      reversedWordCharsArr.push(splitted[i][j]);
+    }
+    resultWordsArray.push(reversedWordCharsArr.join(""));
+  }
+  console.log(resultWordsArray.join(" "));
+}
+reverseCharactersOfWord("we are Humans");
