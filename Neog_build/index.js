@@ -430,3 +430,29 @@ function reverseCharactersOfWord(sentence) {
   console.log(resultWordsArray.join(" "));
 }
 reverseCharactersOfWord("we are Humans");
+
+//  NUMBERS
+
+// Write a JavaScript program that reverses a number.
+
+// Example:
+
+// Input:  32243;
+// Output:  34223
+
+function reverseNum(num) {
+  if (Math.trunc(num / 10) === 0) {
+    return num;
+  } else {
+    let lastDigit = num % 10;
+
+    // Recursively reverse the remaining digits
+    let remainingDigitsReversed = reverseNum(Math.trunc(num / 10));
+    console.log(lastDigit);
+    console.log(lastDigit + "" + remainingDigitsReversed);
+    // Combine the last digit and the reversed remaining digits
+    return parseInt(lastDigit + "" + remainingDigitsReversed);
+  }
+}
+
+console.log(reverseNum(1234));
