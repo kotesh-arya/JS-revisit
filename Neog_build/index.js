@@ -456,3 +456,124 @@ function reverseNum(num) {
 }
 
 console.log(reverseNum(1234));
+
+// Jabuary 8 RDS entry challenge
+
+let arrOfCharAndNumDecodedMorseCodeArr = [];
+function submit(chaincodeString) {
+  fetch("https://exam.ankush.wiki/answers", {
+    method: "POST",
+    body: JSON.stringify({
+      chaincode: chaincodeString,
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  })
+    .then((res) => res.json())
+    .then((json) => console.log(json));
+}
+for (let i = 1; i <= 29; i++) {
+  setTimeout(() => {
+    fetch(`https://exam.ankush.wiki/data?part=${i}`)
+      .then((res) => res.json())
+      .then((json) => {
+        let arr = json.data;
+        console.log("Array", arr);
+        let morseCodeObj = {
+          ".-": "A",
+          "-...": "B",
+          "-.-.": "C",
+          "-..": "D",
+          ".": "E",
+          "..-.": "F",
+          "--.": "G",
+          "....": "H",
+          "..": "I",
+          ".---": "J",
+          "-.-": "K",
+          ".-..": "L",
+          "--": "M",
+          "-.": "N",
+          "---": "O",
+          ".--.": "P",
+          "--.-": "Q",
+          ".-.": "R",
+          "...": "S",
+          "-": "T",
+          "..-": "U",
+          "...-": "V",
+          ".--": "W",
+          "-..-": "X",
+          "-.--": "Y",
+          "--..": "Z",
+          "-----": "0",
+          ".----": "1",
+          "..---": "2",
+          "...--": "3",
+          "....-": "4",
+          ".....": "5",
+          "-....": "6",
+          "--...": "7",
+          "---..": "8",
+          "----.": "9",
+          "/": " ",
+        };
+        let charAndNumDecodedMorseCodeArr = [];
+        let arrowPosition = arr.indexOf("➡➡➡");
+        let numericMorseCodeArr = arr.slice(0, arrowPosition);
+        let numericMorseCodeStr = numericMorseCodeArr.join("");
+        let characterMorseCodeArr = arr.slice(arrowPosition + 1);
+        let characterMorseCodeStr = characterMorseCodeArr.join("");
+
+        console.log("numberic code array", numericMorseCodeArr);
+        console.log("numberic code", numericMorseCodeStr);
+        console.log("char code array", characterMorseCodeArr);
+        console.log("character code", characterMorseCodeStr);
+        console.log("decoded number", morseCodeObj[numericMorseCodeStr]);
+        console.log("decoded str", morseCodeObj[characterMorseCodeStr]);
+
+        function getTwoDigitDecodedNumbers(numericMorseCodeArr) {
+          let firstDigitMorseCodeArr = numericMorseCodeArr.slice(0, 5);
+          let secondDigitMorseCodeArr = numericMorseCodeArr.slice(5);
+          console.log(firstDigitMorseCodeArr);
+          console.log(secondDigitMorseCodeArr);
+          let firstDigitMorseCodeStr = firstDigitMorseCodeArr.join("");
+          let secondDigitMorseCodeStr = secondDigitMorseCodeArr.join("");
+          console.log(firstDigitMorseCodeStr);
+          console.log(secondDigitMorseCodeStr);
+          let firstDigit = morseCodeObj[firstDigitMorseCodeStr];
+          console.log(firstDigit);
+          let secondDigit = morseCodeObj[secondDigitMorseCodeStr];
+          console.log(secondDigit);
+          return firstDigit + secondDigit;
+        }
+
+        if (numericMorseCodeArr.length > 5) {
+          charAndNumDecodedMorseCodeArr.push(
+            Number(getTwoDigitDecodedNumbers(numericMorseCodeArr))
+          );
+        } else {
+          charAndNumDecodedMorseCodeArr.push(
+            Number(morseCodeObj[numericMorseCodeStr])
+          );
+        }
+        charAndNumDecodedMorseCodeArr.push(morseCodeObj[characterMorseCodeStr]);
+        console.log("decoded pair array", charAndNumDecodedMorseCodeArr);
+        arrOfCharAndNumDecodedMorseCodeArr.push(charAndNumDecodedMorseCodeArr);
+        if (i === 29) {
+          console.log(arrOfCharAndNumDecodedMorseCodeArr);
+          let sortedArr = arrOfCharAndNumDecodedMorseCodeArr.sort((a, b) => {
+            return a[0] - b[0];
+          });
+          let magicalChainCode = "";
+          for (let arr of sortedArr) {
+            magicalChainCode = magicalChainCode + arr[1];
+          }
+          console.log(magicalChainCode);
+          console.log(sortedArr);
+          submit(magicalChainCode);
+        }
+      });
+  }, 6000 * i);
+}

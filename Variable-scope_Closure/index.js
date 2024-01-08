@@ -137,4 +137,69 @@ sayHi();
 //Hello John
 // Hello from the Global Lexical Environment and John from the lexical environment of the if block
 
+// Challenge 6
+
+// Sum with closures
+// importance: 4
+// Write function sum that works like this: sum(a)(b) = a+b.
+
+// Yes, exactly this way, using double parentheses (not a mistype).
+
+// For instance:
+
+function sum(first) {
+  return function (second) {
+    console.log(first + second);
+  };
+}
+
+sum(1)(2);
+sum(5)(-1);
+
+// Challenge 7
+
+// Is variable visible?
+// importance: 4
+// What will be the result of this code?
+
+let x = 1;
+
+function func() {
+  console.log(x); // ?  ReferenceError: Cannot access 'x' before initialization
+
+  let x = 2;
+}
+
+func();
+// P.S. There’s a pitfall in this task. The solution is not obvious.
+
+// In this example we can observe the peculiar difference between a “non-existing” and “uninitialized” variable.
+
+// As you may have read in the article Variable scope, closure, a variable starts in the “uninitialized” state from the moment when the execution enters a code block (or a function). And it stays uninitalized until the corresponding let statement.
+
+
+
+// // Challenge 8
+
+// Make a set of “ready to use” filters:
+
+// inBetween(a, b) – between a and b or equal to them (inclusively).
+// inArray([...]) – in the given array.
+// The usage must be like this:
+
+// arr.filter(inBetween(3,6)) – selects only values between 3 and 6.
+// arr.filter(inArray([1,2,3])) – selects only elements matching with one of the members of [1,2,3].
+// For instance:
+
+/* .. your code for inBetween and inArray */
+let arr = [1, 2, 3, 4, 5, 6, 7];
+
+function inBetween(leftLimit, rightLimit){
+
+}
+
+alert( arr.filter(inBetween(3, 6)) ); // 3,4,5,6
+
+alert( arr.filter(inArray([1, 2, 10])) ); // 1,2
+
 
