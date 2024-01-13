@@ -93,3 +93,44 @@ setTimeout(function run() {
 // First timers run immediately (just as written in the spec), and then we see 9, 15, 20, 24.... The 4+ ms obligatory delay between invocations comes into play.
 
 // The similar thing happens if we use setInterval instead of setTimeout: setInterval(f) runs f few times with zero-delay, and afterwards with 4+ ms delay.
+
+// CHALLENGES
+
+// Challenge 1
+// Output every second
+// importance: 5
+// Write a function printNumbers(from, to) that outputs a number every second, starting from from and ending with to.
+
+// Make two variants of the solution.
+
+// Using nested setTimeout.
+
+function printNumbers(from, to) {
+  let timerId;
+
+  timerId = setTimeout(function Func() {
+    if (to >= from) {
+      console.log(from++);
+      timerId = setTimeout(Func, 1000);
+    } else {
+      clearTimeout(timerId);
+    }
+  }, 1000);
+}
+
+printNumbers(3, 8);
+
+// Using setInterval.
+
+function printNumbersAgain(from, to) {
+  let timerId;
+
+  timerId = setInterval(() => {
+    if (from >= to) {
+      clearInterval(timerId);
+    }
+    console.log(from++);
+  }, 1000);
+}
+
+printNumbersAgain(10, 15);
