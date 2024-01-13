@@ -93,6 +93,28 @@ function delay(func, delay) {
 let f1000 = delay(f, 1000);
 let f1500 = delay(f, 3000);
 
-f1000("test"); // shows "test" after 1000ms
-f1500("test"); // shows "test" after 3000ms
+// f1000("test"); // shows "test" after 1000ms
+// f1500("test"); // shows "test" after 3000ms
 
+// Challenge 3
+// Debounce decorator
+function f1(text) {
+  console.log(text);
+}
+
+function debounce(func, debounceDelay) {
+  let timerId;
+  return function () {
+    console.log("Iam called");
+    clearTimeout(timerId);
+    timerId = setTimeout(func, debounceDelay, arguments[0]);
+  };
+}
+
+debouncedFunc = debounce(f1, 4000);
+
+const userInput = document.getElementById("user-input");
+
+userInput.addEventListener("input", (e) => {
+  debouncedFunc(e.target.value);
+});
