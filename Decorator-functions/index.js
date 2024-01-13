@@ -73,3 +73,26 @@ console.log(work.calls, "at lasttt");
 for (let args of work.calls) {
   console.log("call:" + args.join()); // "call:1,2", "call:4,5"
 }
+
+// Challenge 2
+
+// Delaying decorator
+// importance: 5
+// Create a decorator delay(f, ms) that delays each call of f by ms milliseconds.
+
+function f(x) {
+  console.log(x);
+}
+
+function delay(func, delay) {
+  return function () {
+    setTimeout(func, delay, arguments[0]);
+  };
+}
+
+let f1000 = delay(f, 1000);
+let f1500 = delay(f, 3000);
+
+f1000("test"); // shows "test" after 1000ms
+f1500("test"); // shows "test" after 3000ms
+
