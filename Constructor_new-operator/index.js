@@ -110,4 +110,63 @@ let jerseyUser = new User63("Jersey");
 
 jerseyUser.showName();
 
+// CHALLENGES
+
+// Challenge 1
+
+// Two functions – one object
+// importance: 2
+// Is it possible to create functions A and B so that new A() == new B()?
+let obj = {};
+
+function A(name) {
+  return obj;
+}
+
+function B(name) {
+  return obj;
+}
+
+let first = new A("first");
+let second = new B("second");
+
+console.log(first == second);
+// As we can return a different object from the constructor function, we can simply return the same predefined external object, then their result will be the same
+
+// Challenge 2
+// Calculator Constructor with methods
+function Calculator() {
+  this.read = function () {
+    this.a = prompt("Enter value for a", 0);
+    this.b = prompt("Enter value for b", 0);
+  };
+  this.sum = function () {
+    return +this.a + +this.b;
+  };
+  this.mul = function () {
+    return this.a * this.b;
+  };
+}
+let calculator = new Calculator();
+calculator.read();
+
+alert("Sum=" + calculator.sum());
+alert("Mul=" + calculator.mul());
+
+// Challenge 3
+// Accumulator object creation and on every invocation of the read method, increment the value
+function Accumulator(startingValue) {
+  this.value = startingValue;
+  this.read = function () {
+    this.value++;
+  };
+}
+
+let accumulator = new Accumulator(1);
+console.log(accumulator.value); // 1
+accumulator.read();
+accumulator.read();
+accumulator.read();
+console.log(accumulator.value); // 4
+
 
