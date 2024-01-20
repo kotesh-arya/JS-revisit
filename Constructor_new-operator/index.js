@@ -158,7 +158,8 @@ alert("Mul=" + calculator.mul());
 function Accumulator(startingValue) {
   this.value = startingValue;
   this.read = function () {
-    this.value++;
+    let addingValue = prompt("Add count", 0);
+    this.value += +addingValue;
   };
 }
 
@@ -168,5 +169,3 @@ accumulator.read();
 accumulator.read();
 accumulator.read();
 console.log(accumulator.value); // 4
-
-
