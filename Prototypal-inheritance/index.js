@@ -151,3 +151,130 @@ for (let key in pro) {
 }
 
 // Properties shown from bottom to top of the Prototype chain
+
+// SETTING PROTOTYPE FOR OBJECTS CREATED using a CONSTRUCTOR function
+
+// using F.prototype  '// here F is the constructor function name
+// Remember, new objects can be created with a constructor function, like new F().
+let user3 = {
+  race: "human",
+};
+function Admin(name) {
+  this.name = name;
+}
+
+Admin.prototype = user3;
+
+let admin1 = new Admin("kotesh");
+
+console.log(admin1.race); // human  - from the prototype object
+
+// Native Prototypes for the built-in constructors - Object, Array, Function and Date
+
+// The prototype object for the Object constructor function
+
+let obj = { name: "first" };
+console.log(obj.toString()); // "[object Object]"
+
+// But there is no method inside the obj with the name of toString :(
+// Where is that method coming from ???
+
+// It if coming from the Object.prototype object which has all the methods
+
+// creating an object using {} - object literals means invoking the new Object()
+
+let constructorCreatedObject = new Object();
+console.log(constructorCreatedObject); // { }
+
+//  and MAINLY the Object constructor function always have a property "prototype" which contains a numerous helpful functions methods
+
+// So,  the obj acesses the property/method from the Object.prototype
+
+console.log(Object.prototype); // { constructor : Object, toString: {}, an object with many such helpful methods - these methods are called as built-in methods}
+
+// Now
+console.log(obj.__proto__); //{ constructor : Object, toString: {}, an object with many such helpful methods - these methods are called as built-in methods}
+
+console.log(obj.__proto__ === Object.prototype); //true
+console.log(obj.toString === Object.prototype.toString); //true
+console.log(obj.__proto__.toString === Object.prototype.toString); //true
+
+// The prototype object for the Array constructor function
+
+let arr = [1, 2, 3, 4];
+console.log(arr.join("")); //"1234"
+// This join method is inherited from the Array.prototype object
+console.log(arr.__proto__ === Array.prototype); // true
+
+console.log(arr.join === Array.prototype.join); // true
+console.log(arr.__proto__.join === Array.prototype.join); // true
+
+// The prototype object for the Function constructor function
+
+function sample(a, b) {}
+
+console.log(sample.length); // 2 - the number of parameters in the functions definition, NOT ARGUMENTS
+
+// this length property is inherited from the Function.prototype object
+console.log(sample.length, "first"); // 2
+console.log(Function.prototype.length, "second"); //0
+// LENGTH IS A PROPERTY WITH DIFFERENT VALUES, IT'S NOT A FUNCTION WITH A BODY TO COMPARED WITH
+console.log(sample.__proto__ === Function.prototype);
+
+console.log(sample.length === Function.prototype.length, "why??"); // true, but showing false [LENGTH IS A PROPERTY WITH DIFFERENT VALUES, IT'S NOT A FUNCTION WITH A BODY TO COMPARED WITH]
+console.log(sample.__proto__.length === Function.prototype.length); // true
+
+// So, where does primitives get methods from EVEN IF THEY ARE NOT OBJECTS AT ALL ??
+//We already know that then we acess a method on the primitive data-type, AUTO-BOXING happpens , where a wrapper object is created, which had the exact value of the primitive and many useful methods inside it where constructor objects for primitive types are
+
+// string data-types - new String()
+// number data-types - new Number()
+// boolean data-types - new Boolean()
+
+console.log("kotesh".toUpperCase()); // "KOTESH"
+
+// Finally, null & undefined do not have any wrapper object that provides methods :))) bass
+
+// Let's manipulate the in-built prototype objects by adding new methods into them
+
+String.prototype.addStarToText = function () {
+  console.log(this);
+  console.log(typeof this);
+  return this + "*";
+};
+
+console.log("HELLO".addStarToText()); // " HELLO* "
+
+// Now this addStarToText method is inherited and available to every string we write from now on :)))
+
+// BUT MODIFYING A NATIVE PROTOTYPE OBJECT BY ADDING OUR OWN METHODS INTO IT IS A BAD IDEA
+// as prototypes are available globally, there can be clashes if two libraries add a method with a same name into the native prototype object
+
+// But in MODERN JAVASCRIPT, there is onlt one case we are going to modify the native prototypes by adding our own methods into them and it's called - POLYFILLING
+
+// If a browser not support not supports a latest method in the javascript specification
+// then we can write our own method with the same functionality as  A REPLACEMENT FOR THAT NON-SUPPORTED METHOD in the browser.
+
+if (!String.prototype.addDash) {
+  // If there is no addDash method inside the native prototype object
+  // Then add it!
+  String.prototype.addDash = function () {
+    return "---" + this + "---";
+  };
+}
+
+console.log("mowa".addDash()); //" ---mowa--- "
+
+// As these methods are present inside the native prototype we can borrow them into our normal objects
+
+let obj3 = {
+  0: "Hello!",
+  1: "World",
+  length: 2,
+};
+
+obj3.__proto__ = Array.prototype; // borrowing/ setting the Array.prototype object as the [[prototype]] for this obj3 object
+
+console.log(obj3.join(","));
+
+// ONE LAST REMINDER--- No object should inherit from two different objects
