@@ -278,3 +278,77 @@ obj3.__proto__ = Array.prototype; // borrowing/ setting the Array.prototype obje
 console.log(obj3.join(","));
 
 // ONE LAST REMINDER--- No object should inherit from two different objects
+
+// Prototype methods for getting and setting [[Prototype]] for an object and objects without __proto__
+
+// Setting the [[Prototype]] for an object using __proto__ is outdated, instead of that we should use
+
+// Object.getPrototypeOf(obj);  // To know the [[prototype]] for an object
+
+// Object.setPrototypeOf(obj, prototypeObject) // To set prototypeObject as the [[Prototype]] for the obj.
+
+// Another simple method to create an object while setting its prototype at the same time
+
+let animal6 = {
+  eats: false,
+};
+
+let rabbit0 = Object.create(animal); // same as {__proto__ : animal}  a new object with a single __proto__ property
+
+console.log(rabbit0.eats); //true
+
+console.log(Object.getPrototypeOf(rabbit0) === animal); //true
+
+// Better use the Object.create() cause into this method, we can pass a property-descriptor object
+
+let human = {
+  breathes: true,
+};
+
+let male = Object.create(human, {
+  name: {
+    value: "jack",
+  },
+});
+
+console.log(male.name); // "jack"
+
+// "Very plain" objects
+// Objects that do not have any prototype to them for inheriting properties
+
+// Can be created using Object.create(null) passing null into the method
+
+// USECASE:-
+let nonPlainGenricObj = {};
+nonPlainGenricObj.__proto__ = "yoyo"; // any value other than an object or null, assigned to the __proto__ are IGNORED (THATS A WASTED LINE OF CODE)
+
+// The __proto__ property is special: it must be either an object or null. A string can not become a prototype. That’s why an assignment a string to __proto__ is ignored.
+console.log(nonPlainGenricObj.__proto__);
+
+// but what if we really want an property with a key __proto__ ??
+// Is it even possible to create a property with the name of __proto__ and a value of string(something which is neither Object nor null)
+
+// We can achieve this by a Very plain object without explicitly setting its prorotype to null while creating it,
+let plainObj = Object.create(null);
+
+plainObj.__proto__ = "mowa bro";
+
+console.log(plainObj.__proto__);  // "mowa bro"
+
+
+// OR we can just switch to using Map for storage instead of plain objects, then everything’s fine:
+
+let map = new Map();
+
+map.set(__proto__, "some value");
+
+console.log(map.get(__proto__)); // "some value" (as intended)
+
+
+// Note that most object-related methods are Object.something(...), like Object.keys(obj) – they are not in the prototype, so they will keep working on such objects:
+
+let chineseDictionary = Object.create(null);
+chineseDictionary.hello = "你好";
+chineseDictionary.bye = "再见";
+
+console.log(Object.keys(chineseDictionary)); // ['hello','bye']
