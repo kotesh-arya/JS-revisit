@@ -352,3 +352,56 @@ chineseDictionary.hello = "你好";
 chineseDictionary.bye = "再见";
 
 console.log(Object.keys(chineseDictionary)); // ['hello','bye']
+
+
+// Let' create a perfect clone of an object alien including it's property descriptor objects, using Object.create
+
+// Step -1  Let's get property descriptors of the object alien
+let alien = {
+  from: "mars",
+  tribe: "marsopilians",
+};
+let propertyDescriptorsOfAlien = Object.getOwnPropertyDescriptors(alien);
+console.log(propertyDescriptorsOfAlien); //{
+//   from: {
+//     value: 'mars',
+//     writable: true,
+//     enumerable: true,
+//     configurable: true
+//   },
+//   tribe: {
+//     value: 'marsopilians',
+//     writable: true,
+//     enumerable: true,
+//     configurable: true
+//   }
+// }
+
+// Now we will pass the descriptors object of alien as the second argument for the Object.create() in order to provide detailed properties to the clone-object(alienCloneWithExactProperties)
+let alienCloneWithExactProperties = Object.create(
+  alien,
+  propertyDescriptorsOfAlien
+);
+
+console.log(Object.getPrototypeOf(alienCloneWithExactProperties));
+
+// Using Very-plain object ( object without a [[Prototype]] ) to implement associative arrays
+// associative arrays - data structures which allow us to create key-value pairs for storing associative data  - ex:- Dictionaries, maps and hashtables
+
+// But what is we want to create a property with a ket-name  __proto__ and assign it to a value other than null/object ???
+
+// In such cases we can switch to using a Map data structure
+
+let myMap = new Map();
+
+myMap.set(__proto__, "some string");
+
+console.log(myMap.get(__proto__)); // "some string"
+
+// Another way is to create an object without a prototype at all and avoid this condition on the __proto__ property value
+
+let plainObject = Object.create(null);
+
+plainObj.__proto__ = "some random string";
+
+console.log(plainObj.__proto__); // "some string"
