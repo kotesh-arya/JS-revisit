@@ -108,7 +108,21 @@ let json = '{"name":"John", "age": 30}'; // data from the server
 let user = JSON.parse(json); // convert the text representation to JS object
 
 // now user is an object with properties from the string
-alert( user.name ); // John
-alert( user.age ); //30
+console.log( user.name ); // John
+console.log( user.age ); //30
+
+try {
+  // code to be executed with proper error handling
+} catch (error) {
+  console.log("only at error case:", error)
+}finally{
+  console.log("I will be executed anyway !!!")
+}
+
+
+
+const myError = new SyntaxError(" it's an undefined variable");
+
+throw myError  // Error thrown when the main script executes and the error is --> SyntaxError:  it's an undefined variable  
 
 
