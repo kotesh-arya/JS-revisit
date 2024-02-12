@@ -91,8 +91,61 @@ try {
 }
 // Above try...catch execution returns ---> AgeValidationError: In the parsed json a age feild seems missing:
 
+// ----------------WRAPPING EXCEPTIONS------------------
+class ReadError extends Error {
+    constructor(message, cause) {
+        super(message);
+        this.cause = cause;
+        this.name = 'ReadError';
+    }
+}
+
+// class ValidationError extends Error { /*...*/ }
+// class PropertyRequiredError extends ValidationError { /* ... */ }
+
+function validationPart(user) {
+    if (!user.name) {
+        throw new ValidationError("Name feild is missing")
+    }
+    if (!user.age) {
+        throw new ValidationError("Age feild is missing")
+    }
+}
 
 
+function readUser2(json) {
+    try {
+        let user = JSON.parse(json);
+
+    } catch (err) {
+        throw new ReadError("Syntax Error while reading the format of json", err)
+    }
 
 
+    try {
+        validationPart(user)
+    } catch (err) {
+        if (err instanceof ValidationError) {
+            throw new ReadError("Validation Error while checking the existence of the property", err)
+        }
+    }
 
+}
+
+try {
+    readUser2('{bad json}');
+} catch (err) {
+    console.log(err.cause)
+}
+
+
+// Instead of using multiple if else statements inside the catch block, 
+// We divided our code into 2 parts and wrapped them in two different try...catch blocks 
+// From the catch block of each part we are again creating a common ReadError ESPECIALLY PASSING THE TYPE OF ERROR(ValidationError/SyntaxError), AS A CAUSE IN THE SECOND ARGUMENT  
+
+
+// Now in a seperate try...catch block outside, we invoke the readUser function and finally be able to show any type of error with a single statement inside the catch-block
+// Where the "cause" value changes for the different error and all types of errors are covered well :))
+
+
+// This process is called WRAPPING EXCEPTIONS 
