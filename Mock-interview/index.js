@@ -1,3 +1,5 @@
+// Randhir
+
 // Import stylesheets
 import './style.css';
 
@@ -57,3 +59,27 @@ function reverse(obj) {
 }
 
 // reverse(sample);
+
+
+// Prakash
+
+// EVENT LOOP: https://www.youtube.com/watch?v=cCOL7MC4Pl0
+
+// library and framework differences
+
+// react and react-dom
+
+// reconciliation
+
+// react-portals
+
+// coockies
+
+// CORS
+
+// First series introduction in  YDKJS
+
+// Missing keypoints in my explanations
+
+
+// Try YDKJS for jsvascript concepts referring.
