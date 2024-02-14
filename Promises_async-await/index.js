@@ -11,3 +11,12 @@ function parent(cb) {
 parent(sample);
 
 // the cb function is initiated now but it will be finished later
+
+
+function generateScript(src){
+    let scriptElement = document.createElement("script");
+    scriptElement.src = src;
+    document.head.append(scriptElement);
+}
+
+generateScript("./sample.js");
