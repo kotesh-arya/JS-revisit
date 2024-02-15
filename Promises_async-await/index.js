@@ -20,3 +20,54 @@ function generateScript(src){
 }
 
 generateScript("./sample.js");
+
+
+
+// function loadScript(src, callback) {
+//     let script = document.createElement('script');
+//     script.src = src;
+//     script.onload = () => callback(script);
+//     document.head.append(script);
+//   }
+
+
+
+//   loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js', script => {
+//   console.log(`Cool, the script ${script.src} is loaded`); -->  "Cool, the script https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js is loaded"
+//   console.log( _ ); // _ is a function declared in the loaded script
+// });
+
+
+// It’s called a “callback-based” style of asynchronous programming.
+// A function that does something asynchronously should provide a callback argument where we put the function to run after it’s complete.
+
+
+// Callback in callback
+
+
+// Let's put the second loadScript call inside the callback, like this:
+
+loadScript('/my/script.js', function(script) {
+
+    alert(`Cool, the ${script.src} is loaded, let's load one more`);
+  
+    loadScript('/my/script2.js', function(script) {
+      alert(`Cool, the second script is loaded`);
+    });
+  
+  });
+  
+  
+  // What if we want one more script…?
+  
+  loadScript('/my/script.js', function(script) {
+  
+    loadScript('/my/script2.js', function(script) {
+  
+      loadScript('/my/script3.js', function(script) {
+        // ...continue after all scripts are loaded
+      });
+  
+    });
+  
+  });
