@@ -85,14 +85,13 @@ function asyncFunction3(data, callback) {
 }
 
 // Nested callbacks forming the "pyramid of doom"
-asyncFunction1(function (result1) {
-  asyncFunction2(result1, function (result2) {
-    asyncFunction3(result2, function (result3) {
-      console.log(result3); // Output the final result
-    });
-  });
-});
-
+// asyncFunction1(function (result1) {
+//   asyncFunction2(result1, function (result2) {
+//     asyncFunction3(result2, function (result3) {
+//       console.log(result3); // Output the final result
+//     });
+//   });
+// });
 
 // Blocking the main thread
 function timeTakingFunc() {
@@ -101,6 +100,66 @@ function timeTakingFunc() {
     console.log(element);
   }
 }
-timeTakingFunc();
+// timeTakingFunc();
+
+// Simulated asynchronous functions with callbacks
+function askMomForToy(callback) {
+  // Wait for 1 second, then give the toy
+  setTimeout(() => {
+    const toy = "Teddy bear";
+    callback(toy);
+  }, 1000);
+}
+
+function askDadForToy(toy, callback) {
+  // Wait for 1 second, then give the gift only if toy exists
+  setTimeout(() => {
+    let gift;
+    if (toy) {
+      gift = "Remote-controlled car";
+      callback(gift);
+    }
+  }, 1000);
+}
+
+function askGrandmaForToy(gift, callback) {
+  // Wait for 1 second, then give the present only if gift exists
+  setTimeout(() => {
+    let present;
+    if (gift) {
+      present = "Dollhouse";
+      callback(present);
+    }
+  }, 1000);
+}
+
+function askGrandpaForToy(present, callback) {
+  setTimeout(() => {
+    let surprise;
+    if (present) {
+      surprise = "Naruto - Action figure";
+      callback(surprise);
+    }
+  });
+}
 
 
+// Nested callbacks forming the "pyramid of doom"
+askMomForToy(function (toy) {
+  askDadForToy(toy, function (gift) {
+    console.log("toy--->", toy);
+
+    askGrandmaForToy(gift, function (present) {
+      console.log("gift--->", gift);
+      askGrandpaForToy(present, function (surprise) {
+        console.log("present--->", present);
+        console.log("Received:", surprise); // Output the final surprise
+      });
+    });
+  });
+});
+
+
+
+// A rough conclusion of callback hell
+// The execution of the callback funciton is dependent on the execution of the higher-order function it is being passed into.
