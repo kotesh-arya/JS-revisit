@@ -7,7 +7,7 @@ function parent(cb) {
   setTimeout(cb, 1000);
 }
 
-parent(sample);
+// parent(sample);
 
 // the cb function is initiated now but it will be finished later
 
@@ -143,23 +143,52 @@ function askGrandpaForToy(present, callback) {
   });
 }
 
-
 // Nested callbacks forming the "pyramid of doom"
-askMomForToy(function (toy) {
-  askDadForToy(toy, function (gift) {
-    console.log("toy--->", toy);
-
-    askGrandmaForToy(gift, function (present) {
-      console.log("gift--->", gift);
-      askGrandpaForToy(present, function (surprise) {
-        console.log("present--->", present);
-        console.log("Received:", surprise); // Output the final surprise
-      });
-    });
-  });
-});
-
-
+// askMomForToy(function (toy) {
+//   askDadForToy(toy, function (gift) {
+//     console.log("toy--->", toy);
+//     askGrandmaForToy(gift, function (present) {
+//       console.log("gift--->", gift);
+//       askGrandpaForToy(present, function (surprise) {
+//         console.log("present--->", present);
+//         console.log("Received:", surprise); // Output the final surprise
+//       });
+//     });
+//   });
+// });
 
 // A rough conclusion of callback hell
 // The execution of the callback funciton is dependent on the execution of the higher-order function it is being passed into.
+
+function first(cb) {
+  setTimeout(() => {
+    console.log("first callback executed");
+    cb();
+  }, 1000);
+}
+
+function second(cb) {
+  setTimeout(() => {
+    console.log("second callback executed");
+    cb();
+  }, 1000);
+}
+
+function third() {
+  setTimeout(() => {
+    console.log("third callback executed");
+  }, 1000);
+}
+
+// I was thinking to call in this way
+// first(second(third()));  ❌️ here I am passin the function-invocation and not a function body, 
+
+// ✅️ This is how the dependent funciton invocation has to be done by passing function bodies which will be served as callbacks :)
+
+first(function () {
+  second(function () {
+    third();
+  });
+});
+
+// FINAL UNDERSTANDING OF CALLBACK HELL 
