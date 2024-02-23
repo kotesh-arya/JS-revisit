@@ -181,14 +181,52 @@ function third() {
 }
 
 // I was thinking to call in this way
-// first(second(third()));  ❌️ here I am passin the function-invocation and not a function body, 
+// first(second(third())); Error: cb is not a function  ❌️ here I am passin the function-invocation and not a function body,
 
 // ✅️ This is how the dependent funciton invocation has to be done by passing function bodies which will be served as callbacks :)
 
-first(function () {
-  second(function () {
-    third();
-  });
+// first(function () {
+//   second(function () {
+//     third();
+//   });
+// });
+
+// FINAL UNDERSTANDING OF CALLBACK HELL
+
+// Anatomy of Promise
+
+// It's an object
+// Can be created using the Promise constructor function
+
+let myPromise = new Promise((resolve, reject) => {
+  // setTimeout(() => {
+  // let error =  new Error("I am an error bro!!");
+  // reject(error);
+  // resolve(console.log("Data fecthed!!"));
+  // }, 2000);
+});
+// console.log(myPromise);
+
+let samplePromise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("ASYNCHRONOUS FUNCTION EXECUTED SUCCESSFULLY AFTER 2S");
+  }, 2000);
+});
+console.log(samplePromise); // Promise {<Pending>}
+samplePromise.then((result) => {
+  console.log(result); //ASYNCHRONOUS FUNCTION EXECUTED SUCCESSFULLY AFTER 2S
+  console.log(samplePromise); //Promise { 'ASYNCHRONOUS FUNCTION EXECUTED SUCCESSFULLY AFTER 2S' }
 });
 
-// FINAL UNDERSTANDING OF CALLBACK HELL 
+
+// The .then(cb1 for resolved case, cb2 for rejeced case) is a consumer function
+
+// can have 2 arguments where we can pass 2 callback funcitons
+// where first callback gets executed when the promise is resolved
+// The second callback function gets executed when promise id rejected
+
+
+// The .catch(cb) is another consumer function which holds can have a single callback function which gets executed when the promise is rejected with an error.
+
+
+
