@@ -203,3 +203,39 @@ alert( arr.filter(inBetween(3, 6)) ); // 3,4,5,6
 alert( arr.filter(inArray([1, 2, 10])) ); // 1,2
 
 
+
+
+// SCOPE SAMPLE TRY OUT
+
+
+(function run() {
+  console.log("outer function runs only once of course!");
+
+  for (var i = 0; i < 5; i++) {
+    setTimeout(function logValue() {
+      console.log(i); //5
+    }, 100);
+  }
+})();
+
+(function run() {
+  for (let i = 0; i < 5; i++) {
+    setTimeout(function log() {
+      console.log(i); //0 1 2 3 4
+    }, 100);
+  }
+})();
+
+// for (var i = 0; i < 5; i++) {
+//   console.log("*");
+// }
+// console.log(i);
+
+// // Assume these are asynchronous operations that just logs i value
+// console.log(i);
+// console.log(i);
+// console.log(i);
+// console.log(i);
+// console.log(i);
+
+// from this point our Asynchronous functions starts executing with this i value 5
