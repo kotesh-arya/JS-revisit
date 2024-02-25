@@ -212,12 +212,13 @@ let samplePromise = new Promise((resolve, reject) => {
     resolve("ASYNCHRONOUS FUNCTION EXECUTED SUCCESSFULLY AFTER 2S");
   }, 2000);
 });
-console.log(samplePromise); // Promise {<Pending>}
+// console.log(samplePromise); // Promise {<Pending>}
 samplePromise.then((result) => {
   console.log(result); //ASYNCHRONOUS FUNCTION EXECUTED SUCCESSFULLY AFTER 2S
   console.log(samplePromise); //Promise { 'ASYNCHRONOUS FUNCTION EXECUTED SUCCESSFULLY AFTER 2S' }
 });
 
+// The consumer functions of the promise object  ->> then() and catch() and finally()
 
 // The .then(cb1 for resolved case, cb2 for rejeced case) is a consumer function
 
@@ -225,8 +226,59 @@ samplePromise.then((result) => {
 // where first callback gets executed when the promise is resolved
 // The second callback function gets executed when promise id rejected
 
-
 // The .catch(cb) is another consumer function which holds can have a single callback function which gets executed when the promise is rejected with an error.
 
+// Cleanup: finally() : RUNS WHEN PROMISE IS SETTLED (either resolved or rejected)
 
+new Promise((resolve, reject) => {
+  /* do something that takes time, and then call resolve or maybe reject */
+})
+  // runs when the promise is settled, doesn't matter successfully or not
+  .finally(() => "code to stop loading indicator ")
+  // so the loading indicator is always stopped before we go on
+  .then(
+    (result) => "show result from cb1 of then()",
+    (err) => "show error from cb2 of them()"
+  );
 
+// This finally is exactly similar to the one in the try catch construct, which is the party finisher where it will execute the code inside it no matter whether the promise is resolved or rejected :)) and Think of it as a party finisher. No matter was a party good or bad, how many friends were in it, we still need (or at least should) do a cleanup after it.
+
+// MORE ABOUT THE EXECUTOR FUNCTION
+
+// 1. The executor function is called automatically and immediately by the new Promise () invocation
+
+// 2. This executor function recieves 2 arguments which are resolve and reject functions
+
+// 3. Once the processing of the code inside the executor is done, then the executor calls the resolve function by passing data|result into it
+// But if there's any error while the code inside the executor function is getting executed, then the reject() has to be called by passing a valid error into it
+
+fetch("https://api.publicapis.org/ntries") //This returns a promise object
+  .then((res) => res.json())
+  .then((data) => console.log(data))
+  .catch((err) =>
+    console.error(
+      "ERROR HANDLED HERE BY SAVING THE SCRIPT FROM DYING AND LATER ASYNC FUNCIONS ARE EXECUTED WITHOUT ANY INTERRUPTION:",
+      err
+    )
+  )
+  .finally(() => {
+    console.log(
+      "I am from FINALLY BLOCK and am gonna execute anyway either promise resolved or rejected 😉️"
+    );
+  });
+
+console.log(fetch("https://api.publicapis.org/ntries"), "obviously pending!!"); //Promise { <pending> }  as we are accessing before the ececutor function is executing
+
+// NOTE : THERE CAN ONLY BE A SINGLE RESULT OR AN ERROR FROM THE WHOLE EXECUTOR FUNCTION
+
+let promise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("executor funciton successfully completed");
+    reject(new Error("cannot execute, please try again!!")); // ignored
+    resolve("again acknowledging the succeeding of the executor function"); // ignored
+  }, 4000);
+});
+
+promise.then((result) => console.log(result)); // "executor funciton successfully completed"
+
+// Also the resolve and reject functions accept only one value to be passed as an argument and ignore the rest if we try to pass them :)))
