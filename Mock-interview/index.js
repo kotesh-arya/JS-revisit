@@ -83,3 +83,77 @@ function reverse(obj) {
 
 
 // Try YDKJS for jsvascript concepts referring.
+
+
+// Pavan Bhat
+
+
+// function foo() {
+//   return function bar(a) {
+//     i = 3;
+//     console.log(a * i);
+//   }
+// //   for (var i = 0; i < 5; i++) {
+// //     bar(i * 2);
+// //   }
+// }
+
+// // foo()();
+
+// // 0
+// // 6
+// // 12
+// // 18
+// // 24
+
+let sample = {
+    
+  arrFunc: () => {
+    console.log(this);
+  },
+      name : "sample"
+};
+sample.arrFunc()
+function foo(num) {
+  console.log("foo : " + num);
+  this.count++;
+}
+
+foo.count = 0;
+for (var i = 0; i < 7; i++) {
+  if (i < 5) foo(i);
+}
+
+console.log(foo.count);
+
+
+let first ={
+
+
+}
+
+let arr = []
+let second = {
+    __proto__ : first
+}
+
+
+Array.prototype.myMethod = ()=>{
+    console.log("my custom method")
+}
+
+let simple = [];
+simple.myMethod()
+
+
+let obj = {
+name : "kotesh",
+nested : {
+    age: 23
+}
+}
+
+let objCopy = obj;
+let objCopy2 = {...obj};
+console.log(objCopy);
+
