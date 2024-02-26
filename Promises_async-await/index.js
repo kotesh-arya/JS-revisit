@@ -349,3 +349,33 @@ function thirdCopy() {
 firstCopy()
   .then(() => secondCopy())
   .then(() => thirdCopy());
+
+// Tasks
+
+// Re-resolve a promise?
+// What’s the output of the code below?
+
+let promise5 = new Promise(function (resolve, reject) {
+  resolve(1);
+
+  setTimeout(() => resolve(2), 1000);
+});
+
+promise5.then((result) => console.log(result)); // 1 will be printed as only a single resolve or reject will be executed from the executor function and rest of them will be ignored.
+
+// Delay with a promise
+// The built-in function setTimeout uses callbacks. Create a promise-based alternative.
+
+// The function delay(ms) should return a promise. That promise should resolve after ms milliseconds, so that we can add .then to it, like this:
+
+function delay(ms) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve("resolved with data from our so called setTimeout alternative");
+    }, ms);
+  });
+}
+
+delay(6000).then((result) => console.log(result));
+
+
