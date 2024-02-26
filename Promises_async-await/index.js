@@ -232,16 +232,24 @@ samplePromise.then((result) => {
 
 new Promise((resolve, reject) => {
   /* do something that takes time, and then call resolve or maybe reject */
+  setTimeout(() => {
+    resolve("I am the data");
+  }, 3000);
 })
   // runs when the promise is settled, doesn't matter successfully or not
   .finally(() => "code to stop loading indicator ")
   // so the loading indicator is always stopped before we go on
   .then(
-    (result) => "show result from cb1 of then()",
-    (err) => "show error from cb2 of them()"
+    (result) => console.log("show result from cb1 of then()"),
+    (err) => console.log("show error from cb2 of them()")
   );
 
 // This finally is exactly similar to the one in the try catch construct, which is the party finisher where it will execute the code inside it no matter whether the promise is resolved or rejected :)) and Think of it as a party finisher. No matter was a party good or bad, how many friends were in it, we still need (or at least should) do a cleanup after it.
+
+// Few key points about finally
+// 1.It will not get the OUTCOME of the previous handler as it do not accept arguments,the outcome is PASSED-THROUGH instead to the next suitable handler.
+// 2.It's just an must be executed step that carries forward the previous handlers result to it's next handler
+// 3.IF SOMETHING IS RETURNED FROM A finally block, then IT WILL BE SILENTLY IGNORED WITHOUT SHOWING ANY ERROR :(
 
 // MORE ABOUT THE EXECUTOR FUNCTION
 
@@ -282,3 +290,62 @@ let promise = new Promise((resolve, reject) => {
 promise.then((result) => console.log(result)); // "executor funciton successfully completed"
 
 // Also the resolve and reject functions accept only one value to be passed as an argument and ignore the rest if we try to pass them :)))
+
+// let's transform this callback based approach into a promise based
+
+function first(cb) {
+  setTimeout(() => {
+    console.log("first callback executed");
+    cb();
+  }, 1000);
+}
+
+function second(cb) {
+  setTimeout(() => {
+    console.log("second callback executed");
+    cb();
+  }, 1000);
+}
+
+function third() {
+  setTimeout(() => {
+    console.log("third callback executed");
+  }, 1000);
+}
+
+first(function () {
+  second(function () {
+    third();
+  });
+});
+
+function firstCopy() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log("first");
+      resolve();
+    }, 1000);
+  });
+}
+
+function secondCopy() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log("Second");
+      resolve();
+    }, 1000);
+  });
+}
+
+function thirdCopy() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log("Third");
+      resolve();
+    }, 1000);
+  });
+}
+
+firstCopy()
+  .then(() => secondCopy())
+  .then(() => thirdCopy());
