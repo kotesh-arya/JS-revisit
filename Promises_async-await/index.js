@@ -356,9 +356,9 @@ firstCopy()
 // What’s the output of the code below?
 
 let promise5 = new Promise(function (resolve, reject) {
-  resolve(1);
+  resolve(101);
 
-  setTimeout(() => resolve(2), 1000);
+  setTimeout(() => resolve(201), 1000);
 });
 
 promise5.then((result) => console.log(result)); // 1 will be printed as only a single resolve or reject will be executed from the executor function and rest of them will be ignored.
@@ -378,4 +378,51 @@ function delay(ms) {
 
 delay(6000).then((result) => console.log(result));
 
+// Promise chaining
 
+let chainablePromise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(1);
+  });
+});
+
+chainablePromise
+  .then((result) => {
+    console.log(result); //1
+    return result * 2;
+  })
+  .then((result) => {
+    console.log(result); // 2
+    return result * 2;
+  })
+  .then((result) => {
+    console.log(result); // 4
+    return result * 2;
+  })
+  .then((result) => {
+    console.log(result); // 5
+    return result * 2;
+  });
+
+//  Newbie mistake is they will assume using the .then on same promise repeating it again [chainablePromise.then; chainablePromise.then(); chainablePromise.then(); chainablePromise.then()] will chain things
+// But thats not the case, here only once the promise should be used and .then() should be accessed on that and on that .then() method we should contimue on
+
+chainablePromise.then((result) => {
+  console.log(result); //1
+  return result * 2;
+});
+
+chainablePromise.then((result) => {
+  console.log(result); // 2
+  return result * 2;
+});
+
+chainablePromise.then((result) => {
+  console.log(result); // 4
+  return result * 2;
+});
+
+chainablePromise.then((result) => {
+  console.log(result); // 8
+  return result * 2;
+});
