@@ -426,3 +426,65 @@ chainablePromise.then((result) => {
   console.log(result); // 8
   return result * 2;
 });
+
+let shortPromise = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve("data fetched");
+  }, 1000);
+});
+
+shortPromise
+  .then(() => {
+    console.log("1one");
+  })
+  .then(() => {
+    console.log("2two");
+  })
+  .then(() => {
+    console.log("3three");
+  })
+  .then(() => {
+    console.log("4four");
+  })
+  .then(() => {
+    console.log("5five");
+  })
+  .then(() => {
+    console.log("6six");
+  });
+
+// 1one
+// 2two
+// 3three
+// 4four
+// 5five
+// 6six
+
+// function body from inside each .then() will be executed one after another in an order. similar to the previous callbacks behaviour
+
+new Promise(function (resolve, reject) {
+  setTimeout(() => resolve(1), 1000);
+})
+  .then(function (result) {
+    console.log(result); // 1
+
+    return new Promise((resolve, reject) => {
+      // (*)
+      setTimeout(() => resolve(result * 2), 1000);
+    });
+  })
+  .then(function (result) {
+    // (**)
+
+    console.log(result); // 2
+
+    return new Promise((resolve, reject) => {
+      setTimeout(() => resolve(result * 2), 1000);
+    });
+  })
+  .then(function (result) {
+    console.log(result); // 4
+  });
+// Here the first .then shows 1 and returns new Promise(…) in the line (*). After one second it resolves, and the result (the argument of resolve, here it’s result * 2) is passed on to the handler of the second .then. That handler is in the line (**), it shows 2 and does the same thing.
+
+// So the output is the same as in the previous example: 1 → 2 → 4, but now with 1 second delay between alert calls.
