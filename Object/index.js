@@ -183,3 +183,59 @@ let ladder = {
 };
 
 ladder.up().up().down().showStep().down().showStep(); // shows 1 then 0
+
+// Different ways to declare methods inside an object and about "this"
+
+// Way one
+let obj1 = {
+  sayHi: function () {
+    console.log("Hi there!");
+  },
+};
+
+// Way two - Shorthand way
+
+let obj2 = {
+  sayHi() {
+    console.log("Hi there!");
+  },
+};
+
+// "this" inside object methods
+
+const johnObj = {
+  name: "John",
+  greetMyUser() {
+    console.log(`Hi ${this.name}`);
+  },
+};
+
+johnObj.greetMyUser();
+
+
+// Non bounding nature of "this" 
+
+const user1 = {
+  name: "john",
+  age: 44,
+};
+
+const user22 = {
+  name: "mia",
+  age: 20,
+};
+
+function showName() {
+  console.log(`Hi ${this.name}`);
+}
+
+user1.f = showName;
+user22.f = showName;
+
+console.log(user1); // { name: 'john', age: 44, f: [Function: showName] }
+console.log(user22); // { name: 'mia', age: 20, f: [Function: showName] }
+
+
+user1.f(); //Hi john  --> Here "this" refers to the object before the "." which is user1
+
+user22.f(); //Hi mia  --> Here "this" refers to the object before the "." which is user22
