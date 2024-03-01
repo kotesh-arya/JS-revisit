@@ -287,3 +287,42 @@ const animalCloneDescriptors = Object.getOwnPropertyDescriptors(animalClone);
 console.log(animalCloneDescriptors);
 
 // NOTE:- Object.getOwnPropertyDescriptors(object) returns all property descriptors including symbol and non-enumerable properties
+
+
+// Property descriptors work at the level of individual properties.
+
+// There are also methods that limit access to the whole object:
+
+
+const address = {
+  street : " Brahmin street",
+}
+
+// 1.  Forbidding addition of properties to a an object this making it non-extensible
+
+// Object.preventExtensions(address);
+
+// address.lane = "2nd"; // TypeError: Cannot add property lane, object is not extensible
+
+
+// 2.  Forbidding addition/removal of properties to a an object and make it sealed 
+//  [configurable: false] 
+//  Ex:- Built-in Object properties and methods - Math.PI
+
+// Object.seal(address);
+
+
+// // address.city = "Bellandur"; // TypeError: Cannot add property lane, object is not extensible
+// delete address.street; // TypeError: Cannot delete property 'street' of #<Object>
+
+
+// 3. Forbidding adding/removing/changing of properties and freeze it!
+// [configurable: false, writable: false for all existing properties]
+
+Object.freeze(address);
+
+// address.town = "Marathalli"; // TypeError: Cannot add property town, object is not extensible
+
+// delete address.street; // TypeError: Cannot delete property 'street' of #<Object>
+
+// address.street = "Shivalay street"; //TypeError: Cannot assign to read only property 'street' of object 
