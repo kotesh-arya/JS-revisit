@@ -248,3 +248,42 @@ Object.defineProperty(user44, "role", {
 // user44.role = "human";  // TypeError: Cannot assign to read only property 'role' of object
 
 console.log(user44.role); // "team leader"
+
+
+// using "Object.defineProperties(object, { prop-key : {}, prop-key: {}})" and "Object.getOwnPropertyDescriptors(object)"
+const animal = {};
+
+Object.defineProperty(animal, "name", {
+  value: "king kong",
+  writable: true,
+  enumerable: false,
+  configurable: true,
+});
+
+Object.defineProperty(animal, "species", {
+  value: "Gorilla",
+  writable: true,
+  enumerable: true,
+  configurable: false,
+});
+
+Object.defineProperty(animal, "carnivore", {
+  value: true,
+  writable: true,
+  enumerable: false,
+  configurable: true,
+});
+
+console.log(Object.getOwnPropertyDescriptors(animal));
+
+const descriptorsTwo = Object.getOwnPropertyDescriptors(animal);
+
+const animalClone = Object.defineProperties({}, descriptorsTwo);
+
+console.log(animalClone);
+const animalCloneDescriptors = Object.getOwnPropertyDescriptors(animalClone);
+
+
+console.log(animalCloneDescriptors);
+
+// NOTE:- Object.getOwnPropertyDescriptors(object) returns all property descriptors including symbol and non-enumerable properties
