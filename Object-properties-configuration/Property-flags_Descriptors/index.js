@@ -156,4 +156,95 @@ Object.freeze(user);
 
 Object.isFrozen(user); //true - we cannot add, remove or update  any property of an object
 
+const obj55 = {
+  name: "kotesh",
+  age: 34,
+};
 
+Object.defineProperty(obj55, "name", {
+  configurable: false,
+});
+
+obj.name = "mike";
+
+console.log(obj55); // { name: 'mike' }
+
+Object.defineProperty(obj55, "name", {
+  writable: false,
+  configurable: false,
+});
+
+obj.name = "lori";
+
+console.log(obj55); // { name: 'mike' }
+
+// Object.defineProperty(obj55, "name", {
+//   writable: true,
+// });
+
+console.log(Object.getOwnPropertyDescriptor(obj55, "name"));
+
+console.log(Object.getOwnPropertyDescriptor(obj55, "age"));
+
+Object.defineProperty(obj55, "age", {
+  configurable: false,
+});
+
+console.log(Object.getOwnPropertyDescriptor(obj55, "age"));
+
+Object.defineProperty(obj55, "age", {
+  writable: false,
+});
+
+console.log(Object.getOwnPropertyDescriptor(obj55, "age"));
+
+Object.defineProperty(obj55, "age", {
+  writable: false, // when confugurable:false then writable flag can be set to false from being true
+});
+
+//  and UNFORTUNATELY WE CANNOT SET IT TO TRUE AGAIN WHILE configurable is false
+// Object.defineProperty(obj55, "age", {
+//   writable: true, // TypeError: Cannot redefine property: age at Function.defineProperty
+// });
+
+// Object.defineProperty(obj55, "age", {
+//   enumerable: false, // TypeError: Cannot redefine property: age
+//   // at Function.defineProperty  -->  enumerable cannot even be changed from ture to false in the case of configurable being false
+// });
+
+console.log(Object.getOwnPropertyDescriptor(obj55, "age"));
+
+let user44 = {
+  name: "John",
+};
+
+Object.defineProperty(user44, "name", {
+  writable: false,
+});
+
+// user44.name = "Pete"; // TypeError: Cannot assign to read only property 'name' of object '#<Object>' in "use strict" mode
+
+console.log(user44.name); // John as writable is set to false
+
+Object.defineProperty(user44, "role", {
+  value: "developer",
+  writable: true,
+  enumerable: false,
+  configurable: true,
+});
+
+for (let [key, value] of Object.entries(user44)) {
+  console.log(key, value); // shows only name-> john and skips the role property
+}
+
+Object.defineProperty(user44, "role", {
+  writable: false,
+});
+
+Object.defineProperty(user44, "role", {
+  value: "team leader", // writable false only prohibits us from writing the property (user44.role) but we can still chance the property value using the Object.defineProperty() method
+});
+
+// user44.role = "human";  // TypeError: Cannot assign to read only property 'role' of object
+
+console.log(user44.role); // "team leader"
