@@ -378,7 +378,7 @@ function delay(ms) {
 
 delay(6000).then((result) => console.log(result));
 
-// Promise chaining
+// Promise chaining - Used to execute a series of consecutive handler function executions ONE AFTER ANOTHER - IN AN ORDER, by passing them into a series of chained .then()'s
 
 let chainablePromise = new Promise((resolve, reject) => {
   setTimeout(() => {
@@ -427,30 +427,60 @@ chainablePromise.then((result) => {
   return result * 2;
 });
 
-let shortPromise = new Promise((resolve) => {
+let resultFromDelayedPromisesChain = new Promise((resolve) => {
   setTimeout(() => {
-    resolve("data fetched");
+    resolve(1);
   }, 1000);
 });
 
-shortPromise
-  .then(() => {
-    console.log("1one");
+resultFromDelayedPromisesChain
+  .then((result) => {
+    console.log(result);
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(result * 2);
+      }, result * 1000);
+    });
   })
-  .then(() => {
-    console.log("2two");
+  .then((result) => {
+    console.log(result);
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(result * 2);
+      }, result * 1000);
+    });
   })
-  .then(() => {
-    console.log("3three");
+  .then((result) => {
+    console.log(result);
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(result * 2);
+      }, result * 1000);
+    });
   })
-  .then(() => {
-    console.log("4four");
+  .then((result) => {
+    console.log(result);
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(result * 2);
+      }, result * 1000);
+    });
   })
-  .then(() => {
-    console.log("5five");
+  .then((result) => {
+    console.log(result);
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(result * 2);
+      }, result * 1000);
+    });
   })
-  .then(() => {
-    console.log("6six");
+  .then((result) => {
+    console.log(result);
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(result * 2);
+      }, result * 1000);
+    });
   });
 
 // 1one
@@ -460,7 +490,7 @@ shortPromise
 // 5five
 // 6six
 
-// function body from inside each .then() will be executed one after another in an order. similar to the previous callbacks behaviour
+//DETAILED EXPLANATION:- function body from inside each .then() will be executed one after another in an order. similar to the previous callbacks behaviour
 
 new Promise(function (resolve, reject) {
   setTimeout(() => resolve(1), 1000);
@@ -488,3 +518,86 @@ new Promise(function (resolve, reject) {
 // Here the first .then shows 1 and returns new Promise(…) in the line (*). After one second it resolves, and the result (the argument of resolve, here it’s result * 2) is passed on to the handler of the second .then. That handler is in the line (**), it shows 2 and does the same thing.
 
 // So the output is the same as in the previous example: 1 → 2 → 4, but now with 1 second delay between alert calls.
+
+// We learnt that using Promise-chaining we can achieve the callbacks behaviour of getting executed in a order, but if we want to add a delay, IN BETWEEN THE CALLBACKS execution, we
+// SIMPLY RETURN ANOTHER PROMISE FROM THE EACH HANDLER OF .then(), so that the next .then() will only execute after this returned promise gets resolved
+
+new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(2);
+  }, 2000);
+})
+  .then((result) => {
+    console.log(
+      `this HANDLER function body is executed as usual after the pomise resolves`
+    );
+
+    // returning a promise
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve("Hey...!");
+      }, 5000);
+    });
+  })
+  .then((result) => {
+    console.log(`${result}`); // result's value shown i.e this handler function is executed only after the promise from the handler function from previous .then() is resolved.
+  });
+
+// Thenable objects --> Object which have "then" method which takes RESOLVE & REJECT methods similar to the executor function passed into a Promise constructor function
+
+// Let's create a class that creates an object which will have a method with the name of then
+
+class Thenable {
+  // constructor function to create properties using passed values into the class
+  constructor(name) {
+    this.name = name;
+  }
+  bun(resolve, reject) {
+    console.log("from inside the then method of this thenable");
+
+    setTimeout(() => {
+      resolve(1);
+    }, 5000);
+  }
+}
+
+const firstThenable = new Thenable("first");
+console.log(firstThenable);
+
+firstThenable.bun((result) => console.log(result));
+
+// alter version of Promise objects are thenable objects(thenable)
+
+// then method name need not to be called as "then", we can call it whatever we want BUT THE MANDATORY CONDITION IS IT SHOULD HAVE TWO ARGUMENTS - resolve, reject
+
+// A nornally created object with a method having resolve and reject methods as parameters
+const mowaThenable = {
+  age: 34,
+  pakodi(resolve, reject) {
+    setTimeout(() => {
+      // console.log("from pakodi");
+      resolve("resolved value from pakodi method");
+    }, 2000);
+  },
+};
+
+mowaThenable.pakodi((result) => console.log(result));
+
+// thenable is just an object which have a method(better call it "then" even if name doesn't matter).
+// this thenable is also TREATED SAME AS A PROMISE OBJECT ✅️
+
+// *********************some testing here***********
+
+new Promise((resolve) => resolve(1))
+  .then((result) => {
+    return result;
+  })
+  .then(console.log("**FIRST***"))
+  .then(console.log("**SECOND***"))
+  .then(console.log("**THIRD***"))
+  .then(console.log("**FOURTH***"))
+  .then(console.log("**FIFTH***"));
+
+// *********************some testing here***********
+
+// ALWAYS Remember: If a promise is returned from any function execution or code step, USE .then(habdlerFunction) after that funciton invocation and wait for the resolved value & after that use a .catch to catch the error in the promise.
