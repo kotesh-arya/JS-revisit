@@ -333,8 +333,7 @@ let plainObj = Object.create(null);
 
 plainObj.__proto__ = "mowa bro";
 
-console.log(plainObj.__proto__);  // "mowa bro"
-
+console.log(plainObj.__proto__); // "mowa bro"
 
 // OR we can just switch to using Map for storage instead of plain objects, then everything’s fine:
 
@@ -344,7 +343,6 @@ map.set(__proto__, "some value");
 
 console.log(map.get(__proto__)); // "some value" (as intended)
 
-
 // Note that most object-related methods are Object.something(...), like Object.keys(obj) – they are not in the prototype, so they will keep working on such objects:
 
 let chineseDictionary = Object.create(null);
@@ -352,7 +350,6 @@ chineseDictionary.hello = "你好";
 chineseDictionary.bye = "再见";
 
 console.log(Object.keys(chineseDictionary)); // ['hello','bye']
-
 
 // Let' create a perfect clone of an object alien including it's property descriptor objects, using Object.create
 
@@ -405,3 +402,53 @@ let plainObject = Object.create(null);
 plainObj.__proto__ = "some random string";
 
 console.log(plainObj.__proto__); // "some string"
+
+// We have two hamsters: speedy and lazy inheriting from the general hamster object.
+
+// When we feed one of them, the other one is also full. Why? How can we fix it?
+
+// let hamster = {
+//   stomach: [],
+
+//   eat(food) {
+//     this.stomach.push(food);
+//   }
+// };
+
+// let speedy = {
+//   __proto__: hamster,
+
+// };
+
+// let lazy = {
+//   __proto__: hamster,
+// };
+
+// // This one found the food
+// speedy.eat("apple");
+// console.log( speedy.stomach ); // apple
+
+// // This one also has it, why? fix please.
+// console.log( lazy.stomach ); // apple
+
+let hamster = {
+  stomach: [],
+
+  eat(food) {
+    this.stomach = [food];
+  },
+};
+
+let speedy = {
+  __proto__: hamster,
+};
+
+let lazy = {
+  __proto__: hamster,
+};
+
+speedy.eat("apple");
+console.log(speedy.stomach); // apple
+
+//  fixed it  
+console.log(lazy.stomach); // []  
