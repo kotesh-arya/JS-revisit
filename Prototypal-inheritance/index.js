@@ -452,3 +452,19 @@ console.log(speedy.stomach); // apple
 
 //  fixed it  
 console.log(lazy.stomach); // []  
+
+// In F.prototype "prototype" is a property on the constructor function which sets the value of F.prototype as the  prototype of that generated object from this constructor function
+function Rabbit(name){
+  this.name = name;
+}
+Rabbit.prototype = {
+  type: "animal"
+}
+
+let rabbit = new Rabbit("bunny");
+console.log(rabbit.type);  //animal
+
+
+// If we do not set the prototype property of the constructor function, then its value will be an object with single property "constructor" with the constructor function as it's value
+
+console.log(rabbit.constructor); // Rabbit
