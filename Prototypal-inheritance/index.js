@@ -450,21 +450,52 @@ let lazy = {
 speedy.eat("apple");
 console.log(speedy.stomach); // apple
 
-//  fixed it  
-console.log(lazy.stomach); // []  
+//  fixed it
+console.log(lazy.stomach); // []
 
 // In F.prototype "prototype" is a property on the constructor function which sets the value of F.prototype as the  prototype of that generated object from this constructor function
-function Rabbit(name){
+function Rabbit(name) {
   this.name = name;
-}
-Rabbit.prototype = {
-  type: "animal"
 }
 
 let rabbit = new Rabbit("bunny");
-console.log(rabbit.type);  //animal
-
+console.log(rabbit.type); //animal
 
 // If we do not set the prototype property of the constructor function, then its value will be an object with single property "constructor" with the constructor function as it's value
 
+console.log(Rabbit.prototype.constructor === Rabbit); // true
+
+console.log(rabbit.constructor === Rabbit); // true
 console.log(rabbit.constructor); // Rabbit
+console.log(rabbit.__proto__.constructor); // Rabbit
+
+// NATIVE PROTOTYPES
+
+const obj66 = {}; // internally means const obj66 = new Object()
+
+// as we know earlier that the default value of prototype property
+// of a constructor function is an object {constructor : constructor-function}
+
+// Now when we use {} -> object literals, then it means we are creating an object usin the Object constructor function, so this invocation sets the prototype of the created object to an object with a single property -> constructor and its value it the "Object" constructor function itself
+// In that way that huge object full of usefull methods serves as a prototype ✅️
+
+// List of Native prototypes
+
+//1. Object.prototype is an object with many useful methods that will be inherited into the objects created using "{}"
+
+//2. Array.prototype is an object with many useful methods that will be inherited into the arrays created using "[]"
+
+//3. Function.prototype  is an object with many useful methods that will be inherited into the objects created using "funciton keyword"
+
+// Native prototypes for Primitive datatypes
+
+// String.prototype
+// Number.prototype
+// Boolean.prototype
+
+
+
+// *******************   N  O  T  E *****************************
+
+// Values null and undefined have no object wrappers
+// Special values null and undefined stand apart. They have no object wrappers, so methods and properties are not available for them. And there are no corresponding prototypes either.
